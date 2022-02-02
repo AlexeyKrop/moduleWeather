@@ -9,6 +9,10 @@ const getData = (url) => {
   });
 };
 const renderWeather = (obj) => {
+  if (input.value) {
+    input.value = "";
+    input.placeholder = obj.name;
+  }
   document.querySelector(".city").innerHTML = obj.name;
   document.querySelector(".temp").innerHTML = obj.main.temp;
   document.querySelector(".humidity").innerHTML = obj.main.humidity;
