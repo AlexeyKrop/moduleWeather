@@ -1,6 +1,5 @@
 "use strict";
 const input = document.querySelector("input");
-// Формируем url для GET запроса
 const getData = (url) => {
   return new Promise((resolve, reject) => {
     fetch(url)
@@ -14,6 +13,23 @@ const renderWeather = (obj) => {
   document.querySelector(".temp").innerHTML = obj.main.temp;
   document.querySelector(".humidity").innerHTML = obj.main.humidity;
   document.querySelector(".wind").innerHTML = obj.wind.speed;
+  if (obj.main.humidity > 91) {
+    document.querySelector(".weather").style.backgroundImage =
+      "url(./image/rain.png)";
+  }
+  console.log(obj.main.temp);
+  if (obj.main.humidity > 90 && obj.main.temp < 0) {
+    document.querySelector(".weather").style.backgroundImage =
+      "url(./image/snow.png)";
+  }
+  if (obj.main.humidity < 50 && obj.wind.speed < 2) {
+    document.querySelector(".weather").style.backgroundImage =
+      "url(./image/sunny.png)";
+  }
+  if (obj.main.temp > 5 && obj.wind.speed < 2) {
+    document.querySelector(".weather").style.backgroundImage =
+      "url(./image/sunny.png)";
+  }
 };
 const createOption = () => {
   const weather = document.getElementById("weather"),
@@ -354,9 +370,12 @@ input.addEventListener("change", (e) => {
   // API ключ
   let apiKey = "063a9c132beca4c47699d6170e1d33bc";
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=ru&units=metric&appid=${apiKey}`;
-  getData(url)
-    .then((data) => {
-      renderWeather(data);
-    })
-    .catch((error) => console.log(error.message));
+
+  if (city) {
+    getData(url)
+      .then((data) => {
+        renderWeather(data);
+      })
+      .catch((error) => console.log(error.message));
+  }
 });
