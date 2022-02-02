@@ -17,8 +17,7 @@ const renderWeather = (obj) => {
     document.querySelector(".weather").style.backgroundImage =
       "url(./image/rain.png)";
   }
-  console.log(obj.main.temp);
-  if (obj.main.humidity > 90 && obj.main.temp < 0) {
+  if (obj.main.humidity > 80 && obj.main.temp < 0) {
     document.querySelector(".weather").style.backgroundImage =
       "url(./image/snow.png)";
   }
@@ -370,12 +369,13 @@ input.addEventListener("change", (e) => {
   // API ключ
   let apiKey = "063a9c132beca4c47699d6170e1d33bc";
   let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&lang=ru&units=metric&appid=${apiKey}`;
-
   if (city) {
     getData(url)
       .then((data) => {
         renderWeather(data);
       })
       .catch((error) => console.log(error.message));
+  } else {
+    return;
   }
 });
